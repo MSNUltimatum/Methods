@@ -33,9 +33,9 @@ public class TridiagonalMatrixMethod {
                 } else {
                     CDiagonal.add(0d);
                 }
-                if(Math.abs(BDiagonal.get(i)) <= Math.abs(ADiagonal.get(i)) + Math.abs(CDiagonal.get(i))){
-                    throw new IllegalStateException("Matrix is not allowed");
-                }
+//                if(Math.abs(BDiagonal.get(i)) <= Math.abs(ADiagonal.get(i)) + Math.abs(CDiagonal.get(i))){
+//                    throw new IllegalStateException("Matrix is not allowed");
+//                }
                 FreeColumn.add(matrix.get(i).get(matrix.get(i).size() - 1));
             }
         } else {

@@ -18,10 +18,10 @@ public class MatrixOperations {
         int o = matr2.size();
         List<Double> res = new ArrayList<>();
 
-        for (int i = 0; i < matr1.size(); i++) {
-            Double result = 0d;
-            for (int j = 0; j < matr1.get(i).size(); j++) {
-                result += matr1.get(i).get(j) * matr2.get(j);
+        for (List<Double> doubles : matr1) {
+            double result = 0d;
+            for (int j = 0; j < doubles.size(); j++) {
+                result += doubles.get(j) * matr2.get(j);
             }
             res.add(result);
         }

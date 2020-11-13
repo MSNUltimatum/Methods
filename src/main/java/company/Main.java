@@ -9,8 +9,8 @@ import static company.MatrixOperations.*;
 public class Main {
 
     public static void main(String[] args) {
-        List<List<Double>> eulerMethod = new KoshiTask(12, 1).pkMethod(1);
-        printMatrix(eulerMethod);
+        List<List<Double>> matrix = new DifferenceMethod(12).differenceMethod();
+        printMatrix(matrix);
     }
 
     private static void testMaxReverseMatrix(){
