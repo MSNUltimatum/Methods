@@ -6,7 +6,7 @@ import java.util.List;
 public class MatrixOperations {
     public static void printMatrix(List<List<Double>> matrix){
         matrix.forEach(e -> {
-            e.forEach(l -> System.out.printf("  %s  ", l));
+            e.forEach(l -> System.out.printf("     %.3f   ", l));
             System.out.println();
         });
         System.out.println();

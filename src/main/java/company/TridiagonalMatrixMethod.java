@@ -51,7 +51,7 @@ public class TridiagonalMatrixMethod {
         for (int i = 1; i < n; i++) {
             CDiagonal.set(i, CDiagonal.get(i) / (BDiagonal.get(i) - ADiagonal.get(i) * CDiagonal.get(i-1)));
             FreeColumn.set(i, (FreeColumn.get(i) - ADiagonal.get(i) * FreeColumn.get(i-1)) /
-                              (BDiagonal.get(i) - ADiagonal.get(i) * CDiagonal.get(i-1)));
+                    (BDiagonal.get(i) - ADiagonal.get(i) * CDiagonal.get(i-1)));
         }
 
         FreeColumn.set(n, (FreeColumn.get(n) - ADiagonal.get(n) * FreeColumn.get(n-1)) /

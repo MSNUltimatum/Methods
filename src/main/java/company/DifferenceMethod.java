@@ -55,11 +55,11 @@ public class DifferenceMethod {
             matrix.add(new ArrayList<>());
             for (int j = 0; j < xValues.size() - 2; j++) {
                 if (j == i) {
-                    matrix.get(i).add(- 2.0 / h / h + xValues.get(i));
+                    matrix.get(i).add(- 2.0 / h / h + xValues.get(i + 1));
                 } else if (j == i - 1) {
-                    matrix.get(i).add(1.0 / h / h - xValues.get(i) * xValues.get(i) / 2.0 / h);
+                    matrix.get(i).add(1.0 / h / h - xValues.get(i + 1) * xValues.get(i + 1) / 2.0 / h);
                 } else if (j == i + 1) {
-                    matrix.get(i).add(1.0 / h / h + xValues.get(i) * xValues.get(i) / 2.0 / h);
+                    matrix.get(i).add(1.0 / h / h + xValues.get(i + 1) * xValues.get(i + 1) / 2.0 / h);
                 } else {
                     matrix.get(i).add(0.0);
                 }
