@@ -9,7 +9,7 @@ import static company.MatrixOperations.*;
 public class Main {
 
     public static void main(String[] args) {
-        List<List<Double>> matrix = new DifferenceMethod(12).differenceMethod();
+        List<List<Double>> matrix = new MixingMethod().mixingMethod();
         printMatrix(matrix);
     }
 

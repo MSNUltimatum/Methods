@@ -7,30 +7,32 @@ import java.util.stream.Collectors;
 public class DifferenceMethod {
     private final int v;
     private final double h;
+    private final double tValue;
 
-    public DifferenceMethod(int v) {
+    public DifferenceMethod(int v, double tValue) {
         this.v = v;
-        h = v / 10.0;
+        h = v / tValue;
+        this.tValue = tValue;
     }
 
     public List<List<Double>> differenceMethod(){
-        List<Double> xValues = getXValues();
+        List<Double> xValues = getXValues(0.0, tValue + 1, h);
         List<Double> fValues = getFValues(xValues);
-        List<List<Double>> matrix = getMatrixToTridiagonalMethod(xValues);
+        List<List<Double>> matrix = getMatrixToTridiagonalMethod(xValues, h);
         List<Double> yValues = getYValues(matrix, fValues);
+        yValues.add(0, 0d);
+        yValues.add(0d);
         List<Double> yExactValues = getExactYValues(xValues);
         return makeAnswerTable(xValues, yValues, yExactValues);
     }
 
-    private List<List<Double>> makeAnswerTable(List<Double> xValues,
+    public List<List<Double>> makeAnswerTable(List<Double> xValues,
                                                List<Double> yValues,
                                                List<Double> yExactValue){
         List<List<Double>> answerMatrix = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
             answerMatrix.add(new ArrayList<>());
         }
-        yValues.add(0, 0d);
-        yValues.add(0d);
         yExactValue.set(yExactValue.size() - 1, 0d);
         xValues.forEach(e -> answerMatrix.get(0).add(e));
         yValues.forEach(e -> answerMatrix.get(1).add(e));
@@ -41,7 +43,7 @@ public class DifferenceMethod {
         return answerMatrix;
     }
 
-    private List<Double> getYValues(List<List<Double>> matrix, List<Double> freeColumn){
+    public List<Double> getYValues(List<List<Double>> matrix, List<Double> freeColumn){
         for (int i = 1; i < freeColumn.size() - 1; i++) {
             matrix.get(i - 1).add(freeColumn.get(i));
         }
@@ -49,17 +51,17 @@ public class DifferenceMethod {
         return new TridiagonalMatrixMethod(matrix).start();
     }
 
-    private List<List<Double>> getMatrixToTridiagonalMethod(List<Double> xValues) {
+    public List<List<Double>> getMatrixToTridiagonalMethod(List<Double> xValues, double delta) {
         List<List<Double>> matrix = new ArrayList<>();
         for (int i = 0; i < xValues.size() - 2; i++) {
             matrix.add(new ArrayList<>());
             for (int j = 0; j < xValues.size() - 2; j++) {
                 if (j == i) {
-                    matrix.get(i).add(- 2.0 / h / h + xValues.get(i + 1));
+                    matrix.get(i).add(- 2.0 / delta / delta + xValues.get(i + 1));
                 } else if (j == i - 1) {
-                    matrix.get(i).add(1.0 / h / h - xValues.get(i + 1) * xValues.get(i + 1) / 2.0 / h);
+                    matrix.get(i).add(1.0 / delta / delta - xValues.get(i + 1) * xValues.get(i + 1) / 2.0 / delta);
                 } else if (j == i + 1) {
-                    matrix.get(i).add(1.0 / h / h + xValues.get(i + 1) * xValues.get(i + 1) / 2.0 / h);
+                    matrix.get(i).add(1.0 / delta / delta + xValues.get(i + 1) * xValues.get(i + 1) / 2.0 / delta);
                 } else {
                     matrix.get(i).add(0.0);
                 }
@@ -68,7 +70,7 @@ public class DifferenceMethod {
         return matrix;
     }
 
-    private List<Double> getFValues(List<Double> xValues) {
+    protected List<Double> getFValues(List<Double> xValues) {
         List<Double> fValues = new ArrayList<>();
         xValues.forEach(e ->
                 fValues.add(Math.pow(e, 4) * v * 4
@@ -78,16 +80,17 @@ public class DifferenceMethod {
         return fValues;
     }
 
-    private List<Double> getXValues() {
-        List<Double> xValues = new ArrayList<>();
-        xValues.add(0.0);
-        for (int i = 1; i < 11; i++) {
-            xValues.add(xValues.get(i - 1) + h);
+    public List<Double> getXValues(double x0, double bound, double delta) {
+        List<Double> x = new ArrayList<>();
+        double xk = x0;
+        for (int i = 1; i <= bound; i++) {
+            x.add(xk);
+            xk += h;
         }
-        return xValues;
+        return x;
     }
 
-    private List<Double> getExactYValues(List<Double> xValues){
+    protected List<Double> getExactYValues(List<Double> xValues){
         return xValues.stream().map(e -> v * Math.pow(e,2) * (e - v)).collect(Collectors.toList());
     }
 
