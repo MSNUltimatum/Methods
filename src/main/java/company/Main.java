@@ -9,7 +9,7 @@ import static company.MatrixOperations.*;
 public class Main {
 
     public static void main(String[] args) {
-        List<List<Double>> matrix = new MixingMethod().mixingMethod();
+        List<List<Double>> matrix = new UndefinedCoefficientMethod(12).undefinedCoefficientMethod();
         printMatrix(matrix);
     }
 

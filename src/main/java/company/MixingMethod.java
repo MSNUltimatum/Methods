@@ -18,13 +18,13 @@ public class MixingMethod {
 
     public List<List<Double>> mixingMethod() {
         int n = 10;
-        List<Double> x = differenceMethod.getXValues(0.0, n + 1, 0.1);
+        List<Double> x = Utils.getXValues(0.0, n + 1, 0.1);
         List<Double> f = newFFunction(x, fFunction(x));
         List<List<Double>> matrix = differenceMethod.getMatrixToTridiagonalMethod(x, 0.1);
         List<Double> yValues = differenceMethod.getYValues(matrix, f);
         yValues.add(0, 0.0);
         yValues.add(0.0);
-        return differenceMethod.makeAnswerTable(x, getY(x, yValues),getExactYValues(x));
+        return Utils.makeAnswerTable(x, getY(x, yValues),getExactYValues(x));
     }
 
     public double zFunction(double x) {
@@ -40,6 +40,7 @@ public class MixingMethod {
         for (Double xk : x) {
             y.add(V * xk * xk * xk + 1);
         }
+        y.set(y.size() - 1, 0d);
         return y;
     }
 
@@ -56,17 +57,9 @@ public class MixingMethod {
         List<Double> newf = new ArrayList<>();
         for (int i = 0; i < x.size(); i++) {
             double xi = x.get(i);
-            newf.add(f.get(i) - p(xi) * z1Function() - q(xi) * zFunction(xi));
+            newf.add(f.get(i) - Utils.p(xi) * z1Function() - Utils.q(xi) * zFunction(xi));
         }
         return newf;
-    }
-
-    public Double p(double x){
-        return x * x;
-    }
-
-    public Double q(double x){
-        return x;
     }
 
     public List<Double> getY(List<Double> x, List<Double> y0) {

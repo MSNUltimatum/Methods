@@ -16,31 +16,14 @@ public class DifferenceMethod {
     }
 
     public List<List<Double>> differenceMethod(){
-        List<Double> xValues = getXValues(0.0, tValue + 1, h);
+        List<Double> xValues = Utils.getXValues(0.0, tValue + 1, h);
         List<Double> fValues = getFValues(xValues);
         List<List<Double>> matrix = getMatrixToTridiagonalMethod(xValues, h);
         List<Double> yValues = getYValues(matrix, fValues);
         yValues.add(0, 0d);
         yValues.add(0d);
         List<Double> yExactValues = getExactYValues(xValues);
-        return makeAnswerTable(xValues, yValues, yExactValues);
-    }
-
-    public List<List<Double>> makeAnswerTable(List<Double> xValues,
-                                               List<Double> yValues,
-                                               List<Double> yExactValue){
-        List<List<Double>> answerMatrix = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            answerMatrix.add(new ArrayList<>());
-        }
-        yExactValue.set(yExactValue.size() - 1, 0d);
-        xValues.forEach(e -> answerMatrix.get(0).add(e));
-        yValues.forEach(e -> answerMatrix.get(1).add(e));
-        yExactValue.forEach(e -> answerMatrix.get(2).add(e));
-        for (int i = 0; i < yValues.size(); i++) {
-            answerMatrix.get(3).add(Math.abs(yValues.get(i) - yExactValue.get(i)));
-        }
-        return answerMatrix;
+        return Utils.makeAnswerTable(xValues, yValues, yExactValues);
     }
 
     public List<Double> getYValues(List<List<Double>> matrix, List<Double> freeColumn){
@@ -80,18 +63,11 @@ public class DifferenceMethod {
         return fValues;
     }
 
-    public List<Double> getXValues(double x0, double bound, double delta) {
-        List<Double> x = new ArrayList<>();
-        double xk = x0;
-        for (int i = 1; i <= bound; i++) {
-            x.add(xk);
-            xk += h;
-        }
-        return x;
-    }
 
     protected List<Double> getExactYValues(List<Double> xValues){
-        return xValues.stream().map(e -> v * Math.pow(e,2) * (e - v)).collect(Collectors.toList());
+        List<Double> collect = xValues.stream().map(e -> v * Math.pow(e, 2) * (e - v)).collect(Collectors.toList());
+        collect.set(collect.size() - 1, 0d);
+        return collect;
     }
 
 }
