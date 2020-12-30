@@ -9,8 +9,9 @@ import static company.MatrixOperations.*;
 public class Main {
 
     public static void main(String[] args) {
-        List<List<Double>> matrix = new IntegralMethod().getIntegralTable();
+        List<List<Double>> matrix = new QuadratureMethod().quadratureMethod();
         printMatrix(matrix);
+//        QudraturMethodT.showWork();
     }
 
     private static void testMaxReverseMatrix(){
